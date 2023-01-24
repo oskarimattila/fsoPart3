@@ -1,7 +1,12 @@
 const { response } = require('express')
 const express = require('express')
+const morgan = require('morgan')
 const app = express()
 app.use(express.json())
+
+morgan.token('body', function (req, res) {return JSON.stringify(req.body)})
+app.use(morgan(':method :url :status :res[content-length] - :response-time ms :body'))
+
 
 let persons = [
   {
@@ -39,7 +44,6 @@ app.get('/info', (req, res) => {
       <h1>Phonebook application<h1/>
       <h3>Phonebook has info for ${numberOfPersons} people<h3/>
       <h3>${time}<h3/>
-
     `
   )
 })
@@ -61,7 +65,6 @@ app.delete('/api/persons/:id', (req, res) => {
 
 app.post('/api/persons', (req, res) => {
   const id = generateId()
-  console.log('rand id:', id)
   const newPerson = req.body
   if (!newPerson.name || !newPerson.number) {
     return res.status(404).json({error: "content missing"})
@@ -71,10 +74,9 @@ app.post('/api/persons', (req, res) => {
   }
   newPerson.id = id
   persons = persons.concat(newPerson)
+  console.log(JSON.stringify(newPerson))
   res.json(newPerson)
 })
-
-
 
 const PORT = 3001
 app.listen(PORT)
