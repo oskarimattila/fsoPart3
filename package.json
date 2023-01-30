@@ -10,7 +10,8 @@
     "build:ui": "rm -rf build && cd ~/programming/fullstackopen2022/osa2/phonebook/ && npm run build && cp -r build ~/programming/fsoPart3/",
     "deploy": "fly deploy",
     "deploy:full": "npm run build:ui && npm run deploy",
-    "logs:prod": "fly logs"
+    "logs:prod": "fly logs",
+    "lint": "eslint ."
   },
   "author": "Oskari Mattila",
   "license": "MIT",
@@ -22,6 +23,8 @@
     "morgan": "^1.10.0"
   },
   "devDependencies": {
+    "eslint": "^8.33.0",
+    "eslint-plugin-react": "^7.32.2",
     "nodemon": "^2.0.20"
   }
 }
